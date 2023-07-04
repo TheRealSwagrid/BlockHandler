@@ -73,9 +73,9 @@ class Block:
         marker.scale.y = self.scale
         marker.scale.z = self.scale
         marker.color.a = 1
-        marker.type = Marker.CUBE
+        marker.type = Marker.MESH_RESOURCE
         marker.action = Marker.ADD
-        #marker.mesh_resource = self.mesh
+        marker.mesh_resource = self.mesh
         return marker
 
 if __name__ == '__main__':
