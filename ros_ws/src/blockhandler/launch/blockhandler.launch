@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <node pkg="blockhandler" type="block_handler.py" name="my_robot">
+    <node pkg="blockhandler" type="block_handler.py" name="block_handler_$(arg semantix_port)">
         <param name="semantix_port" value="$(arg semantix_port)"/>
     </node>
 </launch>
