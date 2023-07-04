@@ -17,7 +17,7 @@ class RosBlockHandler:
 
     def __init__(self):
         self.a = 0
-        self.pub = rospy.Publisher("/blocks", Marker, queue_size=10)
+        self.pub = rospy.Publisher("/robot", Marker, queue_size=10)
         self.blocks = list()
         for i in range(10):
             self.blocks.append(Block(i, [5., 0., i*.1], [0, 0, 0, 1]))
