@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y python3-rosinstall python3-rosinstall-g
 # Add Files
 ADD ros_ws /ros_ws
 COPY protocols /etc
-COPY PlacerRobot.py /ros_ws/src/blockhandler/src
+COPY BlockHandler.py /ros_ws/src/blockhandler/src
 COPY AbstractVirtualCapability.py ros_ws/src/blockhandler/src
 
 # Build Ros-Pkg and build
