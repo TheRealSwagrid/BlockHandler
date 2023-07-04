@@ -18,7 +18,7 @@ class BlockHandler(AbstractVirtualCapability):
     def get_next_block(self, params: dict):
         pos = [0,0,0]
         if self.funtionality["next_block"] is not None:
-            pos = self.funtionality["next_block"]()
+            pos = self.funtionality["next_block"]().position
 
         return {"Position3D": pos}
 
