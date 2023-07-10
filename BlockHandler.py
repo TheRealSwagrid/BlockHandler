@@ -17,16 +17,24 @@ class BlockHandler(AbstractVirtualCapability):
 
     def get_next_block(self, params: dict):
         pos = [0,0,0]
+        nr = 0
         if self.funtionality["next_block"] is not None:
-            pos = self.funtionality["next_block"]().position
-
-        return {"Position3D": pos}
+            block = self.funtionality["next_block"]().position
+            pos = block.position
+            nr = block.id
+        return {"Position3D": pos, "SimpleIntegerParameter": nr}
 
     def attach_block(self, params: dict):
         tf_str = params["SimpleStringParameter"]
         id = params["SimpleIntegerParameter"]
         if self.funtionality["attach_block"] is not None:
             self.funtionality["attach_block"](id, tf_str)
+        return {"SimpleIntegerParameter": id}
+
+    def detach_block(self, params: dict):
+        id = params["SimpleIntegerParameter"]
+        if self.funtionality["attach_block"] is not None:
+            self.funtionality["attach_block"](id, None)
         return {"SimpleIntegerParameter": id}
 
     def loop(self):
