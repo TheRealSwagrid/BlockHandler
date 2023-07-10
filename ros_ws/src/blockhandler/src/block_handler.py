@@ -3,6 +3,7 @@ from enum import Enum
 from random import random
 
 import rospy
+import tf2_ros
 import std_msgs
 import tf
 from tf import TransformListener
@@ -12,6 +13,7 @@ from AbstractVirtualCapability import VirtualCapabilityServer
 
 from BlockHandler import BlockHandler
 
+tfBuffer = None
 
 class RosBlockHandler:
 
@@ -22,6 +24,12 @@ class RosBlockHandler:
         for i in range(10):
             self.blocks.append(Block(i, [5., 0., i*.1], [0, 0, 0, 1]))
 
+    def get_block(self, block_id: int):
+        for b in self.blocks:
+            if block_id is b.id:
+                return b
+        return None
+
     def publish_all(self):
         for block in self.blocks:
             self.pub.publish(block.as_msg())
@@ -30,6 +38,11 @@ class RosBlockHandler:
         for block in reversed(self.blocks):
             if block.status is Block_Status.not_moved:
                 return block
+
+    def attach_block(self, block_id: int, tf_pos: str):
+        block = self.get_block(block_id)
+        block.status = Block_Status.on_robot
+        block.tf_pos = tf_pos
 
 class Block_Status(Enum):
     not_moved = 0
@@ -50,6 +63,7 @@ class Block:
         self.color_r = random()
         self.color_g = random()
         self.color_b = random()
+        self.tf_pos = None
 
     def as_msg(self) -> Marker:
         marker = Marker()
@@ -61,9 +75,20 @@ class Block:
         marker.color.r = self.color_r
         marker.color.g = self.color_g
         marker.color.b = self.color_b
-        marker.pose.position.x = self.position[0]
-        marker.pose.position.y = self.position[1]
-        marker.pose.position.z = self.position[2]
+        if self.tf_pos:
+            try:
+                current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
+                marker.pose.position = current.transform.translation
+            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
+                rospy.logerr(error)
+                marker.pose.position.x = self.position[0]
+                marker.pose.position.y = self.position[1]
+                marker.pose.position.z = self.position[2]
+        else:
+            marker.pose.position.x = self.position[0]
+            marker.pose.position.y = self.position[1]
+            marker.pose.position.z = self.position[2]
+
         marker.pose.orientation.x = self.rotation[0]
         marker.pose.orientation.y = self.rotation[1]
         marker.pose.orientation.z = self.rotation[2]
@@ -81,6 +106,9 @@ class Block:
 if __name__ == '__main__':
     rospy.init_node('rosnode')
     rate = rospy.Rate(40)
+
+    tfBuffer = tf2_ros.Buffer()
+    listener = tf2_ros.TransformListener(tfBuffer)
 
     server = VirtualCapabilityServer(int(rospy.get_param('~semantix_port')))
     bh = BlockHandler(server)

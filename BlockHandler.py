@@ -22,6 +22,13 @@ class BlockHandler(AbstractVirtualCapability):
 
         return {"Position3D": pos}
 
+    def attach_block(self, params: dict):
+        tf_str = params["SimpleStringParameter"]
+        id = params["SimpleIntegerParameter"]
+        if self.funtionality["attach_block"] is not None:
+            self.funtionality["attach_block"](id, tf_str)
+        return {"SimpleIntegerParameter": id}
+
     def loop(self):
         pass
 
