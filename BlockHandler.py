@@ -11,7 +11,7 @@ from AbstractVirtualCapability import AbstractVirtualCapability, VirtualCapabili
 class BlockHandler(AbstractVirtualCapability):
     def __init__(self, server):
         super().__init__(server)
-        self.funtionality = {"next_block": None}
+        self.funtionality = {"next_block": None, "attach_block": None}
         self.max_vel = 0.25
         self.acc = 0.002
 
