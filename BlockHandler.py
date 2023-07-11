@@ -20,7 +20,7 @@ class BlockHandler(AbstractVirtualCapability):
         nr = 0
         if self.funtionality["next_block"] is not None:
             block = self.funtionality["next_block"]()
-            pos = block.position
+            pos = [block.position.x, block.position.y, block.position.z]
             nr = block.id
         return {"Position3D": pos, "SimpleIntegerParameter": nr}
 
