@@ -2,6 +2,7 @@
 from enum import Enum
 from random import random
 
+from geometry_msgs import msg
 import rospy
 import tf2_ros
 import std_msgs
@@ -59,8 +60,16 @@ class Block:
     def __init__(self, id: int = 0, pos: list = None, rot: list = None):
         self.mesh = "package://blockhandler/meshes/BIG_LEGO.dae"
         self.id = id
-        self.position = pos
-        self.rotation = rot
+        self.position = msg.Vector3()
+        self.position.x = pos[0]
+        self.position.y = pos[1]
+        self.position.z = pos[2]
+        self.rotation = msg.Quaternion()
+        self.rotation.x = rot[0]
+        self.rotation.y = rot[1]
+        self.rotation.z = rot[2]
+        self.rotation.w = rot[3]
+
         self.scale = .01
         self.status = Block_Status.not_moved
         self.color_r = random()
@@ -81,11 +90,14 @@ class Block:
         if self.tf_pos:
             try:
                 current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
-                self.position = list(current.transform.translation)
-                self.rotation = list(current.transform.rotation)
+                self.position = current.transform.translation
+                self.rotation = current.transform.rotation
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
                 rospy.logerr(error)
+        marker.pose.position = self.position
+        marker.pose.orientation = self.rotation
 
+        """
         marker.pose.position.x = self.position[0]
         marker.pose.position.y = self.position[1]
         marker.pose.position.z = self.position[2]
@@ -93,6 +105,7 @@ class Block:
         marker.pose.orientation.y = self.rotation[1]
         marker.pose.orientation.z = self.rotation[2]
         marker.pose.orientation.w = self.rotation[3]
+        """
 
         # Scale down
         marker.scale.x = self.scale
