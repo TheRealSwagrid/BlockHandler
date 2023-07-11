@@ -118,6 +118,7 @@ if __name__ == '__main__':
     block_handler.publish_all()
 
     bh.funtionality["next_block"] = block_handler.get_next_block
+    bh.funtionality["attach_block"] = block_handler.attach_block
 
     while not rospy.is_shutdown():
         block_handler.publish_all()
