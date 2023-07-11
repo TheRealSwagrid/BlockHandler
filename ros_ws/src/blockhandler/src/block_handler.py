@@ -31,7 +31,10 @@ class RosBlockHandler:
         return None
 
     def publish_all(self):
+        rospy.logwarn("Publishing all")
         for block in self.blocks:
+            if block.tf_pos:
+                rospy.logwarn(f"PUBLISHUNG TF SHIT from block {block.id}")
             self.pub.publish(block.as_msg())
 
     def get_next_block(self):
