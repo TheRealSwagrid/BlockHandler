@@ -81,21 +81,19 @@ class Block:
         if self.tf_pos:
             try:
                 current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
-                marker.pose.position = current.transform.translation
+                self.position = list(current.transform.translation)
+                self.rotation = list(current.transform.rotation)
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
                 rospy.logerr(error)
-                marker.pose.position.x = self.position[0]
-                marker.pose.position.y = self.position[1]
-                marker.pose.position.z = self.position[2]
-        else:
-            marker.pose.position.x = self.position[0]
-            marker.pose.position.y = self.position[1]
-            marker.pose.position.z = self.position[2]
 
+        marker.pose.position.x = self.position[0]
+        marker.pose.position.y = self.position[1]
+        marker.pose.position.z = self.position[2]
         marker.pose.orientation.x = self.rotation[0]
         marker.pose.orientation.y = self.rotation[1]
         marker.pose.orientation.z = self.rotation[2]
         marker.pose.orientation.w = self.rotation[3]
+
         # Scale down
         marker.scale.x = self.scale
         marker.scale.y = self.scale
