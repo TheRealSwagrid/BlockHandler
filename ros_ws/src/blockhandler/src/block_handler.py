@@ -26,9 +26,9 @@ class RosBlockHandler:
 
     def get_block(self, block_id: int):
         for b in self.blocks:
-            if block_id is b.id:
+            if block_id == b.id:
                 return b
-        return None
+        return self.blocks[int(block_id)]
 
     def publish_all(self):
         rospy.logwarn("Publishing all")
