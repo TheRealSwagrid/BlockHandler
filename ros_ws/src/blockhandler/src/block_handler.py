@@ -41,8 +41,12 @@ class RosBlockHandler:
                 return block
 
     def attach_block(self, block_id: int, tf_pos: str):
+        rospy.logerr(f"Block {block_id} on TF: {tf_pos}")
         block = self.get_block(block_id)
-        block.status = Block_Status.on_robot
+        if tf_pos:
+            block.status = Block_Status.on_robot
+        else:
+            block.status = Block_Status.in_place
         block.tf_pos = tf_pos
 
 class Block_Status(Enum):
