@@ -38,7 +38,7 @@ class RosBlockHandler:
         for block in self.blocks:
             self.pub.publish(block.as_msg())
             self.br.sendTransform((block.position.x, block.position.y, block.position.z),
-                                  block.rotation, rospy.Time.now(), f"Block_{block.id}", "world")
+                                  (block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w), rospy.Time.now(), f"Block_{block.id}", "world")
 
 
     def get_next_block(self):
