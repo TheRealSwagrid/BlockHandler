@@ -17,6 +17,7 @@ from BlockHandler import BlockHandler
 
 tfBuffer = None
 
+
 class RosBlockHandler:
 
     def __init__(self):
@@ -25,7 +26,7 @@ class RosBlockHandler:
         self.br = tf.TransformBroadcaster()
         self.blocks = list()
         for i in range(10):
-            self.blocks.append(Block(i, [5., 0., i*.1], [0, 0, 0, 1]))
+            self.blocks.append(Block(i, [5., 0., i * .1], [0, 0, 0, 1]))
 
     def get_block(self, block_id: int):
         for b in self.blocks:
@@ -36,9 +37,9 @@ class RosBlockHandler:
     def publish_all(self):
         for block in self.blocks:
             self.pub.publish(block.as_msg())
-            self.br.sendTransform(block.position,
-                                  block.rotation, rospy.Time.now(), "Block_{block.id}",
-                                  "world")
+            self.br.sendTransform((block.position.x, block.position.y, block.position.z),
+                                  block.rotation, rospy.Time.now(), f"Block_{block.id}", "world")
+
 
     def get_next_block(self):
         for block in reversed(self.blocks):
@@ -53,6 +54,7 @@ class RosBlockHandler:
         else:
             block.status = Block_Status.in_place
         block.tf_pos = tf_pos
+
 
 class Block_Status(Enum):
     not_moved = 0
@@ -122,6 +124,7 @@ class Block:
         marker.action = Marker.ADD
         marker.mesh_resource = self.mesh
         return marker
+
 
 if __name__ == '__main__':
     rospy.init_node('rosnode')
