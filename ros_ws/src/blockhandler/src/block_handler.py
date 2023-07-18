@@ -100,11 +100,10 @@ class Block:
             current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
             self.position = current.transform.translation
             self.rotation = current.transform.rotation
+            rospy.logerr(f"Block–{self.id}: rotation={self.rotation}")
             """except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
                 rospy.logerr(error)
                 print(repr(error))"""
-
-        rospy.logerr(f"Block–{self.id}: rotation={self.rotation}")
         marker.pose.position = self.position
         marker.pose.orientation = self.rotation
 
