@@ -38,8 +38,8 @@ class RosBlockHandler:
         for block in self.blocks:
             self.pub.publish(block.as_msg())
             self.br.sendTransform((block.position.x, block.position.y, block.position.z),
-                                  (block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w), rospy.Time.now(), f"Block_{block.id}", "world")
-
+                                  (block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w),
+                                  rospy.Time.now(), f"Block_{block.id}", "world")
 
     def get_next_block(self):
         for block in reversed(self.blocks):
@@ -96,7 +96,7 @@ class Block:
         marker.color.g = self.color_g
         marker.color.b = self.color_b
         if self.tf_pos:
-            #try:
+            # try:
             current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
             self.position = current.transform.translation
             self.rotation = current.transform.rotation
@@ -144,6 +144,11 @@ if __name__ == '__main__':
     bh.funtionality["next_block"] = block_handler.get_next_block
     bh.funtionality["attach_block"] = block_handler.attach_block
 
+    i = 0
     while not rospy.is_shutdown():
+        if i % 20 == 0:
+            for b in block_handler.blocks:
+                rospy.logerr(f"Block_{b.id}: ROT: {b.rotation} POS: {b.position}")
         block_handler.publish_all()
         rate.sleep()
+        i += 1
