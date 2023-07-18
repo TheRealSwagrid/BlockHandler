@@ -96,12 +96,13 @@ class Block:
         marker.color.g = self.color_g
         marker.color.b = self.color_b
         if self.tf_pos:
-            try:
-                current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
-                self.position = current.transform.translation
-                self.rotation = current.transform.rotation
-            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
+            #try:
+            current = tfBuffer.lookup_transform('world', self.tf_pos, rospy.Time(0), rospy.Duration(1.0))
+            self.position = current.transform.translation
+            self.rotation = current.transform.rotation
+            """except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
                 rospy.logerr(error)
+                print(repr(error))"""
         marker.pose.position = self.position
         marker.pose.orientation = self.rotation
 
