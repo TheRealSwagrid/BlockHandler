@@ -103,18 +103,10 @@ class Block:
             """except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as error:
                 rospy.logerr(error)
                 print(repr(error))"""
+
+        rospy.logerr(f"Block–{self.id}: rotation={self.rotation}")
         marker.pose.position = self.position
         marker.pose.orientation = self.rotation
-
-        """
-        marker.pose.position.x = self.position[0]
-        marker.pose.position.y = self.position[1]
-        marker.pose.position.z = self.position[2]
-        marker.pose.orientation.x = self.rotation[0]
-        marker.pose.orientation.y = self.rotation[1]
-        marker.pose.orientation.z = self.rotation[2]
-        marker.pose.orientation.w = self.rotation[3]
-        """
 
         # Scale down
         marker.scale.x = self.scale
@@ -129,7 +121,7 @@ class Block:
 
 if __name__ == '__main__':
     rospy.init_node('rosnode')
-    rate = rospy.Rate(40)
+    rate = rospy.Rate(10)
 
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
@@ -144,11 +136,7 @@ if __name__ == '__main__':
     bh.funtionality["next_block"] = block_handler.get_next_block
     bh.funtionality["attach_block"] = block_handler.attach_block
 
-    i = 0
     while not rospy.is_shutdown():
-        if i % 20 == 0:
-            for b in block_handler.blocks:
-                rospy.logerr(f"Block_{b.id}: ROT: {b.rotation} POS: {b.position}")
         block_handler.publish_all()
         rate.sleep()
-        i += 1
+
