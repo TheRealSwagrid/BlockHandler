@@ -9,6 +9,7 @@ import std_msgs
 import tf
 from tf import TransformListener
 import visualization_msgs.msg
+
 from visualization_msgs.msg import Marker
 from AbstractVirtualCapability import VirtualCapabilityServer
 
@@ -21,6 +22,7 @@ class RosBlockHandler:
     def __init__(self):
         self.a = 0
         self.pub = rospy.Publisher("/robot", Marker, queue_size=10)
+        self.br = tf.TransformBroadcaster()
         self.blocks = list()
         for i in range(10):
             self.blocks.append(Block(i, [5., 0., i*.1], [0, 0, 0, 1]))
@@ -34,6 +36,9 @@ class RosBlockHandler:
     def publish_all(self):
         for block in self.blocks:
             self.pub.publish(block.as_msg())
+            self.br.sendTransform(block.position,
+                                  block.rotation, rospy.Time.now(), "Block_{block.id}",
+                                  "world")
 
     def get_next_block(self):
         for block in reversed(self.blocks):
