@@ -120,7 +120,7 @@ class Block:
 
 if __name__ == '__main__':
     rospy.init_node('rosnode')
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(35)
 
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
