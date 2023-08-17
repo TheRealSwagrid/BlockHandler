@@ -41,7 +41,7 @@ class BlockHandler(AbstractVirtualCapability):
         list_of_blocks = []
         if self.funtionality["all_blocks"] is not None:
             list_of_blocks = self.funtionality["all_blocks"]()
-        return {"List": list_of_blocks}
+        return {"ListOfPoints": list_of_blocks}
 
     def loop(self):
         pass
