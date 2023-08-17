@@ -35,7 +35,7 @@ class RosBlockHandler:
         return self.blocks[int(block_id)]
 
     def all_blocks(self):
-        return self.blocks
+        return [[b.position.x, b.position.y, b.position.z] for b in self.blocks]
 
     def publish_all(self):
         for block in self.blocks:
@@ -142,4 +142,3 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         block_handler.publish_all()
         rate.sleep()
-
