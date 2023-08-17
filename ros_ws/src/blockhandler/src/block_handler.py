@@ -34,6 +34,9 @@ class RosBlockHandler:
                 return b
         return self.blocks[int(block_id)]
 
+    def all_blocks(self):
+        return self.blocks
+
     def publish_all(self):
         for block in self.blocks:
             self.pub.publish(block.as_msg())
@@ -134,6 +137,7 @@ if __name__ == '__main__':
 
     bh.funtionality["next_block"] = block_handler.get_next_block
     bh.funtionality["attach_block"] = block_handler.attach_block
+    bh.funtionality["all_blocks"] = block_handler.all_blocks
 
     while not rospy.is_shutdown():
         block_handler.publish_all()

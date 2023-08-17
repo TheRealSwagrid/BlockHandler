@@ -11,7 +11,7 @@ from AbstractVirtualCapability import AbstractVirtualCapability, VirtualCapabili
 class BlockHandler(AbstractVirtualCapability):
     def __init__(self, server):
         super().__init__(server)
-        self.funtionality = {"next_block": None, "attach_block": None}
+        self.funtionality = {"next_block": None, "attach_block": None, "all_blocks": None}
         self.max_vel = 0.25
         self.acc = 0.002
 
@@ -36,6 +36,12 @@ class BlockHandler(AbstractVirtualCapability):
         if self.funtionality["attach_block"] is not None:
             self.funtionality["attach_block"](id, None)
         return {"SimpleIntegerParameter": id}
+
+    def get_all_blocks(self, params: dict):
+        list_of_blocks = []
+        if self.funtionality["all_blocks"] is not None:
+            list_of_blocks = self.funtionality["all_blocks"]()
+        return {"List": list_of_blocks}
 
     def loop(self):
         pass
