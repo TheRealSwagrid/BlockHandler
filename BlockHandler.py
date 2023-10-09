@@ -38,7 +38,7 @@ class BlockHandler(AbstractVirtualCapability):
         return {"SimpleIntegerParameter": id}
 
     def get_all_blocks(self, params: dict):
-        list_of_blocks = []
+        list_of_blocks = [[0.,1.,0.], [0.,3.,0.]]
         if self.funtionality["all_blocks"] is not None:
             list_of_blocks = self.funtionality["all_blocks"]()
         return {"ListOfPoints": list_of_blocks}
