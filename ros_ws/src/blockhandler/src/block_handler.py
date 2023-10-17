@@ -135,9 +135,9 @@ if __name__ == '__main__':
     block_handler = RosBlockHandler()
     block_handler.publish_all()
 
-    bh.funtionality["next_block"] = block_handler.get_next_block
-    bh.funtionality["attach_block"] = block_handler.attach_block
-    bh.funtionality["all_blocks"] = block_handler.all_blocks
+    bh.functionality["next_block"] = block_handler.get_next_block
+    bh.functionality["attach_block"] = block_handler.attach_block
+    bh.functionality["all_blocks"] = block_handler.all_blocks
 
     while not rospy.is_shutdown():
         block_handler.publish_all()
