@@ -44,6 +44,14 @@ class BlockHandler(AbstractVirtualCapability):
             list_of_blocks = self.funtionality["all_blocks"]()
         return {"ListOfPoints": list_of_blocks}
 
+    def SetBlockDimensions(self, params: dict):
+        new_dims = params["ListOfPoints"]
+        self.block_dimensions = new_dims
+        return self.GetBlockDimensions()
+
+    def GetBlockDimensions(self, params: dict):
+        return {"ListOfPoints": self.block_dimensions}
+
     def loop(self):
         pass
 
