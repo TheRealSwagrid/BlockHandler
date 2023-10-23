@@ -19,11 +19,13 @@ class BlockHandler(AbstractVirtualCapability):
     def get_next_block(self, params: dict):
         pos = [0,0,0]
         nr = 0
+        rot = [0., 0., 0., 1.]
         if self.funtionality["next_block"] is not None:
             block = self.funtionality["next_block"]()
             pos = [block.position.x, block.position.y, block.position.z]
             nr = block.id
-        return {"Position3D": pos, "SimpleIntegerParameter": nr}
+            rot = [block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w]
+        return {"Position3D": pos, "SimpleIntegerParameter": nr, "Qaternion": rot}
 
     def attach_block(self, params: dict):
         tf_str = params["SimpleStringParameter"]
