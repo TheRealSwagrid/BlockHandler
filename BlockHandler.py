@@ -11,7 +11,7 @@ from AbstractVirtualCapability import AbstractVirtualCapability, VirtualCapabili
 class BlockHandler(AbstractVirtualCapability):
     def __init__(self, server):
         super().__init__(server)
-        self.funtionality = {"next_block": None, "attach_block": None, "all_blocks": None}
+        self.functionality = {"next_block": None, "attach_block": None, "all_blocks": None}
         self.max_vel = 0.25
         self.acc = 0.002
         self.block_dimensions = [0.11, 0.22, 0.1]
@@ -20,8 +20,8 @@ class BlockHandler(AbstractVirtualCapability):
         pos = [0,0,0]
         nr = 0
         rot = [0., 0., 0., 1.]
-        if self.funtionality["next_block"] is not None:
-            block = self.funtionality["next_block"]()
+        if self.functionality["next_block"] is not None:
+            block = self.functionality["next_block"]()
             pos = [block.position.x, block.position.y, block.position.z]
             nr = block.id
             rot = [block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w]
@@ -30,20 +30,20 @@ class BlockHandler(AbstractVirtualCapability):
     def attach_block(self, params: dict):
         tf_str = params["SimpleStringParameter"]
         id = params["SimpleIntegerParameter"]
-        if self.funtionality["attach_block"] is not None:
-            self.funtionality["attach_block"](id, tf_str)
+        if self.functionality["attach_block"] is not None:
+            self.functionality["attach_block"](id, tf_str)
         return {"SimpleIntegerParameter": id}
 
     def detach_block(self, params: dict):
         id = params["SimpleIntegerParameter"]
-        if self.funtionality["attach_block"] is not None:
-            self.funtionality["attach_block"](id, None)
+        if self.functionality["attach_block"] is not None:
+            self.functionality["attach_block"](id, None)
         return {"SimpleIntegerParameter": id}
 
     def get_all_blocks(self, params: dict):
         list_of_blocks = [[0.,1.,0.], [0.,3.,0.]]
-        if self.funtionality["all_blocks"] is not None:
-            list_of_blocks = self.funtionality["all_blocks"]()
+        if self.functionality["all_blocks"] is not None:
+            list_of_blocks = self.functionality["all_blocks"]()
         return {"ListOfPoints": list_of_blocks}
 
     def SetBlockDimensions(self, params: dict):
