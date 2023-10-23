@@ -14,7 +14,7 @@ class BlockHandler(AbstractVirtualCapability):
         self.funtionality = {"next_block": None, "attach_block": None, "all_blocks": None}
         self.max_vel = 0.25
         self.acc = 0.002
-        self.block_dimensions = [0.11, 0.22, 0.11]
+        self.block_dimensions = [0.11, 0.22, 0.1]
 
     def get_next_block(self, params: dict):
         pos = [0,0,0]
