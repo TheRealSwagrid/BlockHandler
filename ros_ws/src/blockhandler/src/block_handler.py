@@ -26,7 +26,7 @@ class RosBlockHandler:
         self.br = tf.TransformBroadcaster()
         self.blocks = list()
         for i in range(10):
-            self.blocks.append(Block(i, [1.5, 0., i * .1], [0, 0, 0, 1]))
+            self.blocks.append(Block(i, [3., 3., i * .1], [0, 0, 0, 1]))
 
     def get_block(self, block_id: int):
         for b in self.blocks:
