@@ -28,9 +28,9 @@ class RosBlockHandler:
         for i in range(10):
             self.blocks.append(Block(i, [-1., -1., i * .1], [0, 0, 0, 1]))
         for i in range(10):
-            self.blocks.append(Block(i+10, [-1., -1.22, i * .1], [0, 0, 0, 1]))
+            self.blocks.append(Block(i+10, [-1., -1.11, i * .1], [0, 0, 0, 1]))
         for i in range(10):
-            self.blocks.append(Block(i+20, [-1., -1.44, i * .1], [0, 0, 0, 1]))
+            self.blocks.append(Block(i+20, [-1., -1.22, i * .1], [0, 0, 0, 1]))
 
     def get_block(self, block_id: int):
         for b in self.blocks:
