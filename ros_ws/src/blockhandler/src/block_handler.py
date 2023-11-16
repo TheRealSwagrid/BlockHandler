@@ -101,7 +101,7 @@ class Block:
         self.rotation.z = rot[2]
         self.rotation.w = rot[3]
 
-        self.scale = .01
+        self.scale = 1.
         self.shape = shape
         self.status = Block_Status.not_moved
         self.color_r = random()
