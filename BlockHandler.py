@@ -11,7 +11,7 @@ from AbstractVirtualCapability import AbstractVirtualCapability, VirtualCapabili
 class BlockHandler(AbstractVirtualCapability):
     def __init__(self, server):
         super().__init__(server)
-        self.functionality = {"next_block": None, "attach_block": None, "all_blocks": None}
+        self.functionality = {"next_block": None, "attach_block": None, "all_blocks": None, "spawn": None}
         self.max_vel = 0.25
         self.acc = 0.002
         self.block_dimensions = [0.11, 0.22, 0.1]
@@ -26,6 +26,20 @@ class BlockHandler(AbstractVirtualCapability):
             nr = block.id
             rot = [block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w]
         return {"Position3D": pos, "SimpleIntegerParameter": nr, "Qaternion": rot}
+
+    def spawn_block(self, params: dict):
+        pos = [0,0,0]
+        nr = 0
+        rot = [0., 0., 0., 1.]
+        dims = params["Vector3"]
+        if self.functionality["spawn"] is not None:
+            block = self.functionality["spawn"](dims)
+            pos = [block.position.x, block.position.y, block.position.z]
+            nr = block.id
+            rot = [block.rotation.x, block.rotation.y, block.rotation.z, block.rotation.w]
+        return {"Position3D": pos, "SimpleIntegerParameter": nr, "Qaternion": rot}
+
+
 
     def attach_block(self, params: dict):
         tf_str = params["SimpleStringParameter"]

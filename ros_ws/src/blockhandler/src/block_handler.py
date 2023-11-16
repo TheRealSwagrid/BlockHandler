@@ -25,12 +25,25 @@ class RosBlockHandler:
         self.pub = rospy.Publisher("/robot", Marker, queue_size=10)
         self.br = tf.TransformBroadcaster()
         self.blocks = list()
+        self.id_enumerator = 0
+        """
         for i in range(10):
             self.blocks.append(Block(i, [-1., -1., i * .1], [0, 0, 0, 1]))
         for i in range(10):
             self.blocks.append(Block(i+10, [-1., -1.11, i * .1], [0, 0, 0, 1]))
         for i in range(10):
             self.blocks.append(Block(i+20, [-1., -1.22, i * .1], [0, 0, 0, 1]))
+        """
+
+    def next_id(self):
+        self.id_enumerator += 1
+        return self.id_enumerator
+
+    def spawn(self, shape: list):
+        b = Block(id=self.next_id(), pos=[-1., -1., 0.], rot=[0, 0, 0, 1], shape=shape,
+                  mesh="package://blockhandler/meshes/cube1m.dae")
+        self.blocks.append(b)
+        return b
 
     def get_block(self, block_id: int):
         for b in self.blocks:
@@ -72,8 +85,11 @@ class Block_Status(Enum):
 
 class Block:
 
-    def __init__(self, id: int = 0, pos: list = None, rot: list = None):
-        self.mesh = "package://blockhandler/meshes/BIG_LEGO.dae"
+    def __init__(self, id: int = 0, pos: list = None, rot: list = None, shape: list = None, mesh: str = None):
+        if mesh is not None:
+            self.mesh = mesh
+        else:
+            self.mesh = "package://blockhandler/meshes/BIG_LEGO.dae"
         self.id = id
         self.position = msg.Vector3()
         self.position.x = pos[0]
@@ -86,6 +102,7 @@ class Block:
         self.rotation.w = rot[3]
 
         self.scale = .01
+        self.shape = shape
         self.status = Block_Status.not_moved
         self.color_r = random()
         self.color_g = random()
@@ -116,9 +133,9 @@ class Block:
         marker.pose.orientation = self.rotation
 
         # Scale down
-        marker.scale.x = self.scale
-        marker.scale.y = self.scale
-        marker.scale.z = self.scale
+        marker.scale.x = self.scale * self.shape[0]
+        marker.scale.y = self.scale * self.shape[1]
+        marker.scale.z = self.scale * self.shape[2]
         marker.color.a = 1
         marker.type = Marker.MESH_RESOURCE
         marker.action = Marker.ADD
@@ -143,6 +160,7 @@ if __name__ == '__main__':
     bh.functionality["next_block"] = block_handler.get_next_block
     bh.functionality["attach_block"] = block_handler.attach_block
     bh.functionality["all_blocks"] = block_handler.all_blocks
+    bh.functionality["spawn"] = block_handler.spawn
 
     while not rospy.is_shutdown():
         block_handler.publish_all()
