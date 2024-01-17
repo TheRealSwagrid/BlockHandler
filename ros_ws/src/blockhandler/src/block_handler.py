@@ -147,6 +147,8 @@ if __name__ == '__main__':
     rospy.init_node('rosnode')#, xmlrpc_port=xmlrpc_port, tcpros_port=tcpros_port)
     xmlrpc_port = int(rospy.get_param('~xmlrpc_port'))
     tcpros_port = int(rospy.get_param('~tcpros_port'))
+    print(xmlrpc_port)
+    print(tcpros_port)
     rate = rospy.Rate(30)
 
     tfBuffer = tf2_ros.Buffer()
