@@ -147,7 +147,7 @@ class Block:
 if __name__ == '__main__':
     rospy.init_node('rosnode')#, xmlrpc_port=xmlrpc_port, tcpros_port=tcpros_port)
     rate = rospy.Rate(30)
-    print(os.environ["xmlrpc_port"])
+    raise Exception(os.environ["xmlrpc_port"])
     xmlrpc_port = int(rospy.get_param('~xmlrpc_port'))
     tcpros_port = int(rospy.get_param('~tcpros_port'))
     print(xmlrpc_port)
