@@ -153,7 +153,6 @@ if __name__ == '__main__':
     print(xmlrpc_port)
     print(tcpros_port)
 
-
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
 
