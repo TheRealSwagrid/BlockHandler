@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import socket
 from enum import Enum
 from random import random
 
@@ -166,7 +167,8 @@ if __name__ == '__main__':
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
 
-    server = VirtualCapabilityServer(int(rospy.get_param('~semantix_port')))
+    server = VirtualCapabilityServer(int(rospy.get_param('~semantix_port')), socket.gethostbyname(socket.gethostname()))
+
     bh = BlockHandler(server)
     bh.start()
 
