@@ -8,6 +8,7 @@ import rospy
 import tf2_ros
 import std_msgs
 import tf
+from geometry_msgs.msg import TransformStamped
 from tf import TransformListener
 import visualization_msgs.msg
 
@@ -147,6 +148,20 @@ class Block:
 if __name__ == '__main__':
     rospy.init_node('rosnode', xmlrpc_port=int(os.environ["xmlrpc_port"]), tcpros_port=int(os.environ["tcpros_port"]))
     rate = rospy.Rate(30)
+    static_transform_broadcaster = tf2_ros.StaticTransformBroadcaster()
+    static_transform = TransformStamped()
+    static_transform.header.stamp = rospy.Time.now()
+    static_transform.header.frame_id = 'world'
+    static_transform.child_frame_id = 'luca'
+    static_transform.transform.translation.x = 0
+    static_transform.transform.translation.y = 0
+    static_transform.transform.translation.z = 1
+    static_transform.transform.rotation.x = 0
+    static_transform.transform.rotation.y = 0
+    static_transform.transform.rotation.z = 0
+    static_transform.transform.rotation.w = 1
+
+    static_transform_broadcaster.sendTransform(static_transform)
 
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
