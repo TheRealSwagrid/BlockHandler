@@ -25,6 +25,7 @@ COPY AbstractVirtualCapability.py ros_ws/src/blockhandler/src
 
 RUN  vi +':wq ++ff=unix' /ros_ws/src/blockhandler/src/BlockHandler.py
 RUN  vi +':wq ++ff=unix' /ros_ws/src/blockhandler/src/AbstractVirtualCapability.py
+RUN  vi +':wq ++ff=unix' /ros_ws/src/blockhandler/src/block_handler.py
 
 # Build Ros-Pkg and build
 RUN cd /ros_ws && source /opt/ros/noetic/setup.bash && catkin_make
