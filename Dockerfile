@@ -31,4 +31,4 @@ RUN  vi +':wq ++ff=unix' /ros_ws/src/blockhandler/src/block_handler.py
 RUN cd /ros_ws && source /opt/ros/noetic/setup.bash && catkin_make
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-CMD source /ros_ws/devel/setup.bash && roslaunch blockhandler blockhandler.launch semantix_port:=${semantix_port} --screen
+CMD source /ros_ws/devel/setup.bash && roslaunch blockhandler blockhandler.launch semantix_port:=${semantix_port}
