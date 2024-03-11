@@ -148,7 +148,7 @@ class Block:
 
 if __name__ == '__main__':
     rospy.init_node('rosnode', xmlrpc_port=int(os.environ["xmlrpc_port"]), tcpros_port=int(os.environ["tcpros_port"]))
-    rate = rospy.Rate(30)
+    rate = rospy.Rate(60)
     static_transform_broadcaster = tf2_ros.StaticTransformBroadcaster()
     static_transform = TransformStamped()
     static_transform.header.stamp = rospy.Time.now()
